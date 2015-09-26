@@ -1,0 +1,120 @@
+
+
+import java.util.List;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Random;
+import java.util.Scanner;
+import java.lang.Double;
+import java.util.*;
+public class DataSet {
+	
+	
+	
+	static List<Double> arrayList;
+	static Double possionarry[];
+	static Double array[];
+	
+	
+	class SOfN<T> {
+	    private  final Random rand = new Random();
+	 
+	    private  List<T> sample;
+	    private int i = 0;
+	    private int n;
+	    public SOfN(int _n) {
+		n = _n;
+		sample = new ArrayList<T>(n);
+	    }
+	    public List<T> process(T item) {
+		i++;
+		if (i <= n) {
+	            sample.add(item);
+		} else if (rand.nextInt(i) < n) {
+		    sample.set(rand.nextInt(n), item);
+		}
+		return sample;
+	    }
+	}
+	
+	
+	
+	public  Double[] possionNo(int range){
+		Double dataset[] =new Double[range];
+		DataSet D2 = new DataSet();
+		int[] bin = new int[range];
+		for (int trial = 0; trial < 100000; trial++) {
+		    SOfN<Integer> s_of_n = new SOfN<Integer>(3);
+		    List<Integer> sample = null;
+		    for (int i = 0; i < range; i++)
+			sample = s_of_n.process(i);
+		    for (int s : sample)
+			bin[s]++;
+		}
+		
+		for (int i=0;i<bin.length;i++)
+		dataset[i] = (double) bin[i];
+		
+		System.out.println(Arrays.toString(dataset));
+	    return dataset;
+		
+	    }
+		
+		
+	
+	public static Double[] random(int range){
+		 array = new Double[range];
+		 Random Randomno = new Random();
+
+	      
+	      Randomno.setSeed(1015);
+		for(int i = 0;i<range;i++){
+			array[i] = Randomno.nextDouble() * range;
+			
+		}
+		
+		return array;
+	}
+	
+	public static Double[] sorted(int range){
+		 array = new Double[range];
+		
+		 for(int i = 0;i<range;i++){
+			array[i] = (double)(i+100);
+			
+		}
+		return array;
+		
+	}
+	
+	
+	public static Double[] onefourth(int range){
+		 array = new Double[range];
+		 Random Randomno = new Random();
+		 
+		 for(int i = 0;i<range;i++){
+			if(i%4==0)
+				 array[i] = (double)(i);
+			 else
+			array[i] = Randomno.nextDouble()*range;;
+			
+		}
+		 System.out.println(Arrays.toString(array));
+		return array;
+	}
+	
+	
+	/*public static void main(String[] args) {
+		
+		DataSet D2 = new DataSet();
+		Double array1[] = new Double[100];
+		
+		array1 = D2.sorted(20);
+		System.out.println(Arrays.toString(array1));
+		
+	}*/
+	
+	
+	
+}

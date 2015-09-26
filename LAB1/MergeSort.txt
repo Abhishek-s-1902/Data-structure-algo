@@ -1,0 +1,120 @@
+
+
+import java.lang.reflect.Array;
+import java.util.Arrays;
+import java.util.Random;
+
+public class MergeSort {
+	
+	static double array[];
+	public static int heapSize;
+	public static int Alength ;
+	static long milliSeconds = 0;
+	
+	public static void start() {
+        milliSeconds = System.currentTimeMillis();
+           }
+	
+	 public static void end() {
+        System.err.println(  ": Time for mergesort:  " + ( System.currentTimeMillis() - milliSeconds) );
+         }
+
+	
+	public static void random(int range){
+		 array = new double[range];
+		 Random Randomno = new Random();
+
+	      
+	      Randomno.setSeed(1015);
+		for(int i = 0;i<range;i++){
+			array[i] = Randomno.nextDouble() * range;
+			//System.out.println(array[i]);
+		}
+	}
+	
+	
+	
+	public static void mergeSort(double array1[]){
+		
+		int n = array1.length;
+		
+		int temIndex=0;
+		if(n < 2)
+			return;
+		int mid = n/2;
+		int nexthalf = array1.length-mid;
+		double left[];
+		double right[] = new double[nexthalf];
+		
+		left = Arrays.copyOfRange(array1, 0, mid);
+		right = Arrays.copyOfRange(array1, mid, n);
+		
+		
+		mergeSort(left);
+		mergeSort(right);
+		merge(left,right, array1);
+		
+	}
+	
+	
+	
+ public static void merge(double left[],double right[],double array2[]){
+		
+		int noinLeft = left.length;
+		int noinRight = right.length;
+		int i = 0, j=0,k=0;
+		while(i<noinLeft&&j<noinRight ){
+			if(left[i]<=right[j])
+			{
+				array2[k] = left[i];
+				i++;
+			}
+			
+			else{
+				array2[k] = right[j];
+				j++;
+			}
+			k++;
+		}
+		
+		while(i<noinLeft){
+			array2[k] = left[i];
+			i++; k++;
+		}
+		
+		while(j<noinRight){
+			array2[k] = right[j];
+			j++; k++;
+		}
+		
+	}
+	
+	
+	
+	
+	public static void main(String[] args) {
+		
+		if(args.length==0){
+			System.out.println("no element length provided");
+		}
+
+		int range = Integer.parseInt(args[0]);
+		
+		if(range==1){
+			
+			System.out.println(array);
+		}
+		
+		random(range);
+
+		start();
+		mergeSort(array);
+		end();
+		
+		System.out.println("sorted list");
+		
+		
+		System.out.println(Arrays.toString(array));
+	}
+
+}

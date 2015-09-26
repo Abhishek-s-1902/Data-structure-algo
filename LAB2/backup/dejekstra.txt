@@ -1,0 +1,166 @@
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Vector;
+
+
+public class dijkstra {
+	
+	 
+	static int finalpath[][];
+	static int backtrac[];
+	static int minVal_weight[] ;
+	static int weight[][] = {{0,1,2,(int)Float.POSITIVE_INFINITY,(int)Float.POSITIVE_INFINITY},
+						{(int)Float.POSITIVE_INFINITY,0,(int)Float.POSITIVE_INFINITY,4,2},
+						{(int)Float.POSITIVE_INFINITY,(int)Float.POSITIVE_INFINITY,0,3,(int)Float.POSITIVE_INFINITY},
+						{(int)Float.POSITIVE_INFINITY,(int)Float.POSITIVE_INFINITY,(int)Float.POSITIVE_INFINITY,0,3},
+						{(int)Float.POSITIVE_INFINITY,(int)Float.POSITIVE_INFINITY,(int)Float.POSITIVE_INFINITY,
+								(int)Float.POSITIVE_INFINITY,(int)Float.POSITIVE_INFINITY}};
+	
+	/*static int weight[][] = {{0,1,(int)Float.POSITIVE_INFINITY},
+							 {0,0,2},
+							 {(int)Float.POSITIVE_INFINITY,(int)Float.POSITIVE_INFINITY,0}};*/
+	
+	
+	
+
+	static public int min_node(int presentNode){
+		int node=0;
+		int min=0;
+		for(int i=1;i<finalpath.length;i++){
+			if(finalpath[i][presentNode]<=finalpath[i-1][presentNode]&&finalpath[i][presentNode]!=0){
+				min = finalpath[i][presentNode];
+				node = i;}
+			}
+		System.out.println("retun node"+ node);
+		return node;
+		}
+	
+	
+	
+	static public int min_value(int presentNode){
+		
+		int minnode=0;
+		int min=0;
+			
+		for(int i=0;i<finalpath[0].length;i++){
+			if(finalpath[i][presentNode]==0)
+				continue;
+			else if(minnode==0){
+			minnode=i;
+			min = finalpath[i][presentNode];
+			}				
+			else if(finalpath[i][presentNode]<=finalpath[minnode][presentNode]){
+				min = finalpath[i][presentNode];
+				minnode = i;}
+			}
+		System.out.println("min for "+presentNode+" is "+min );
+		return min;
+	}
+	
+	
+	static public void calculate_path(int matrix[][]){
+		
+		int presentNode;
+		backtrac = new int[matrix.length];
+		minVal_weight = new int[matrix.length];
+		int widthofGraph = matrix[0].length;
+		int backtracknode, minvalueForpresentNode;
+		
+		Queue<Integer> path = new LinkedList<Integer>();
+		
+		path.add(0);
+		int max_val =0;
+			
+		//minnode = backtrac[presentNode];
+		while(!path.isEmpty()){
+		presentNode = path.peek();
+		System.out.println("value PN "	+presentNode);
+		//System.out.println("backtracknode of PN :"+presentNode+" is "+ backtracknode);
+		minvalueForpresentNode =  min_value(presentNode);                         // finalpath[backtracknode][presentNode];
+		//System.out.println("value :min of node "+presentNode+" is "+ minvalueForpresentNode);
+		
+		for(int j = 1;j<widthofGraph; j++){
+			
+			if(matrix[presentNode][j]!=(int)Float.POSITIVE_INFINITY && matrix[presentNode][j]!=0)
+			{		
+				//System.out.println("value :PN "+presentNode+" j :"+j+" is "+ (matrix[presentNode][j]));
+				finalpath[presentNode][j] = matrix[presentNode][j]+minvalueForpresentNode;
+				path.add(j);
+				for(int s : path) { 
+					  System.out.println("queue val at PN:"+presentNode+" "+ s); 
+					}
+				System.out.println("finalpath :PN "+presentNode+" j :"+j+" is "+ (finalpath[presentNode][j]));
+				//System.out.println("backtracknode at j "+j+" is "+ backtrac[j]);
+			}
+		}	
+		path.remove();
+		}
+		
+		minVal_weight[0] = 0;
+		backtrac[0] = 0;
+		for(int i= 1;i<matrix.length;i++){
+			minVal_weight[i]=min_value(i);
+			backtrac[i] = min_node(i);
+		}
+		
+		
+	}
+	
+	
+	public static void main(String[] args) {
+		
+		int nextnode=0;
+		int length ;                                                // weight.length;
+		int v = Integer.parseInt(args[0]);
+		int e = Integer.parseInt(args[1]);
+		System.out.println("Non-weighted undirected graph:");
+		GraphInputGenerator g = new GraphInputGenerator(v, e,
+		false, false);
+		//g.genGraphInput();
+		
+	//	weight = g.get_adj();
+		
+		/*for(int i= 0;i<weight.length;i++){
+			for(int j= 0;j<weight[0].length;j++){
+				System.out.println("val at i:"+i+" j "+j+" is "+ weight[i][j]);
+			}
+		}*/
+		
+		length = weight.length;
+		finalpath = new int[length][length] ;                             //intializing the finalpath
+		System.out.println("length "+ finalpath.length);
+		
+		calculate_path(weight);
+		
+		for(int i= 1;i<weight.length;i++){
+			
+			System.out.println("weight from 0 to :"+i+" is "+ minVal_weight[i]);
+		}
+		
+		/*for(int i= 0;i<backtrac.length;i++){
+			
+			System.out.println("form node 0 to :"+ i );
+			for(int j=i;j>=0;)	
+			{   
+				nextnode = backtrac[j];
+				j=backtrac[j];
+				System.out.println("weight from 0 to :"+j+" is "+ backtrac[j]);
+				if(j==0)
+					j--;
+			}
+			
+		}*/
+		
+		
+	
+	/*System.out.println("Weighted undirected graph:");
+	g = new GraphInputGenerator(v, e, true, false);
+	g.genGraphInput();
+	System.out.println("Non-weighted directed graph:");
+	g = new GraphInputGenerator(v, e, false, true);
+	g.genGraphInput();
+	System.out.println("Weighted directed graph:");
+	g = new GraphInputGenerator(v, e, true, true);
+	g.genGraphInput();*/
+	}
+}

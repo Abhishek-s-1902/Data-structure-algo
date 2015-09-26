@@ -1,0 +1,117 @@
+package algoSort;
+
+import java.util.Arrays;
+import java.util.Random;
+
+public class Quikersort {
+	
+	static double array[],partarray =1 ;
+	static long milliSeconds = 0;
+	
+	public static void start() {
+         milliSeconds = System.currentTimeMillis();
+            }
+	
+	 public static void end() {
+         System.err.println(  ": Time for quickSort:  " + ( System.currentTimeMillis() - milliSeconds) );
+          }
+	 
+	 
+	public static double[] random(int range){
+		double array[] = new double[range];
+		Random Randomno = new Random();
+		double scaled;
+	    Randomno.setSeed(1015);
+		for(int i = 0;i<range;i++){
+		array[i] = Randomno.nextDouble() * range; 
+		}
+		return array;
+	}
+	
+	
+	public static void swap(int i, int j){
+		
+		double temp = array[j];
+		array[j] = array[i];
+		array[i] = temp;
+	}
+	
+	public static int partArray(int first,int last)
+	{
+		//System.out.println(partarray);
+	//partarray++;
+		
+		Random rand = new Random();
+		
+		int pivot = first + (int)(Math.random() * (( last - first)));
+		//System.out.println("piviot "+ pivot);
+		
+		swap(pivot,last);
+		
+		pivot = last;
+		int index = first;
+		
+		for(int i=first;i<last;i++){
+			//System.out.println("index "+ index + " i "+ i);
+			
+			if(array[i]<= array[pivot]){
+							
+				swap(i,index);
+				index++;
+			}
+			
+		}
+		swap(index,last);										
+		
+		//for(int i=0;i<array.length;i++){
+			
+		//	System.out.print(array[i]+" ");
+			//}
+		//System.out.println();
+		//System.out.println("arrray[index] "+ array[index-1]+" "+ (index-1));
+		return index;
+	}
+
+	public static void qsort(int first,int last){
+		
+		if(first<last){
+			
+			int partIndex = partArray(first,last);
+			//System.out.println("start "+ first);
+			qsort(first,partIndex-1);
+			//System.out.println("start "+ first);
+			qsort(partIndex+1,last);
+		}	
+			
+		
+	}
+	
+	
+	public static void main(String[] args) {
+		
+		
+	
+		if(args.length==0){
+			System.out.println("no element length provided");
+		}
+
+		int range = Integer.parseInt(args[0]);
+		
+		
+		 
+		
+		if(range==1){
+			
+			System.out.println(array);
+		}
+		array =new double[range];
+		array = random(range);
+		start();
+		qsort(0,--range);
+		end();	
+		
+		System.out.println("sorted list");
+		System.out.println(Arrays.toString(array));
+	}
+
+}

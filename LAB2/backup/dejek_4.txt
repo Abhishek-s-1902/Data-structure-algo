@@ -1,0 +1,200 @@
+import java.util.Vector;
+
+
+public class dejekstra3 {
+
+	static int matrix[][] = {{0,1,2,0,0,0},
+		 {0,0,1,0,0,0},
+		 {0,0,0,0,0,0},
+		 {0,0,1,0,0,0},
+		 {0,0,0,1,0,0},
+		 {0,0,0,2,1,0}};
+	
+	//static weightbetweenNode weight[][];
+	static node queue[]; 
+	static node set[]; 
+	static Integer present_min_Node = (Integer) null;
+	public static class node{
+		node(int length){
+			adj = new node[length];
+			weight_between_adj = new int[length];
+			visited =0;
+			j= new int[length];
+		}
+		int j[];
+		int visited ;
+		int distance;
+		node adj[] ;
+		int weight_between_adj[] ;
+		node parentNode;
+	}
+	
+	public static class weightbetweenNode{
+		int weight_between_node;
+		
+	}
+	
+	public static void update_child(node presentnode,node childnode,int weight){
+		
+		
+		if(weight==0)
+			weight = (int)Float.POSITIVE_INFINITY-(presentnode.distance+10);
+		System.out.println("weight"+ weight);
+		if(childnode.distance > presentnode.distance+weight)
+		{
+			childnode.distance = presentnode.distance +weight;
+			childnode.parentNode = presentnode;
+		}
+		
+	}
+	
+	
+	public static void initialize_nodes(int matrix[][]){
+		int length = matrix.length; 
+		
+		for(int i = 0; i<length;i++)
+		{
+			node N = new node(length);
+			 queue[i]= N;
+			 queue[i].distance = 1000000;
+		}
+		
+		queue[0].distance = 0;
+		
+		for(int i=0;i<length;i++){
+			for(int j=0;j<length;j++){
+				if(matrix[i][j]!=0){
+					queue[i].adj[j]= queue[j];
+					queue[i].j[j] = j;
+					queue[i].weight_between_adj[j]= matrix[i][j];
+					//System.out.print("i weight j"+i+" "+j+queue[i].weight_between_adj[j]);
+					
+				}else{
+					queue[i].adj[j]= null;
+					queue[i].weight_between_adj[j]= 0;
+				}
+					
+			}
+		}
+		
+		
+	}
+	
+	
+	public static boolean Extract_min(){
+		int temp = 0 ;
+		int temp2 = 1;
+		node temp_1 = new node(0);
+		Vector<node> temp_node = new Vector<node>(); 
+		Vector<Integer> temp_index = new Vector<Integer>();
+		int i,j;
+		
+		for(i=0;i<queue.length;i++){
+			System.out.println("in extraction visited for: "+i+" "+queue[i].visited);
+			if(queue[i].visited==0){
+				temp_node.add(queue[i]);
+				temp_index.add(i);
+				if(temp_node.lastElement()==queue[i])
+					System.out.println(" equal: "+temp_index.lastElement());
+				}
+			}
+		
+		if(temp_node.size()==0){
+			return false;
+		}else{
+																										//present_min_Node = 0;
+		for(i =0;i<temp_node.size();i++){
+			
+		if(temp_node.get(temp).distance>=temp_node.get(i).distance){
+				temp = i;
+				present_min_Node = temp_index.get(i);
+				System.out.println("tem_index: "+ present_min_Node);                 // present_min_Node = temp_index.get(i);
+				continue;
+			}
+		
+		}
+		
+		return true;
+	}		
+	
+	}
+	
+	public static void dejeckstra(){
+		int length = matrix.length;
+		boolean allVisited;
+		node child;
+		int weightbetweenTwo;
+		int index =0;
+		int lengthoftraversal = length;
+		while(lengthoftraversal!=0){
+		 
+			if(Extract_min()){
+			
+			System.out.println("present_min_Node :"+present_min_Node);
+			//set[index]=present_min_Node;
+			//int size = present_min_Node.adj.length;
+			for(int j=0;j<length;j++){
+				if(matrix[present_min_Node][j]!=0){
+				child = queue[present_min_Node].adj[j];
+				
+				weightbetweenTwo = queue[present_min_Node].weight_between_adj[j];
+				System.out.println("child at position "+ queue[present_min_Node].j[j]+"weight: "+weightbetweenTwo);
+				update_child(queue[present_min_Node],child,weightbetweenTwo);
+				}
+				}
+			
+			queue[present_min_Node].visited = 1;
+			System.out.println("visited for:"+present_min_Node+"  "+queue[present_min_Node].visited );
+			lengthoftraversal--;
+			present_min_Node = (Integer)null;
+			System.out.println("PN :after loop: "+present_min_Node);
+			}else{
+				System.out.println("break : no minnode");
+				break;
+			}
+			
+		}
+		
+	}
+	
+	
+	
+	public static void main(String[] args){
+		
+		
+		int v,e;
+		v = Integer.parseInt(args[0]);
+		e = Integer.parseInt(args[1]);
+		
+		 System.out.println("Weighted undirected graph:");
+		 GraphInputGenerator g = new GraphInputGenerator(v, e, true, false);
+		
+		 matrix = g.get_adj();
+		 
+		
+		 int length = matrix.length;
+		// weight = new weightbetweenNode[length][length];
+		 queue = new node[length];
+		 set = new node[length];
+		 
+		//Initialization of matrix//
+		 
+		 initialize_nodes(matrix);			
+		 for(int i=0;i<length;i++){
+				for(int j=0;j<length;j++)
+				{
+					if(matrix[i][j]!=0)
+					System.out.print( matrix[i][j]+" ");
+			}	System.out.println();
+		 }
+		dejeckstra();
+		
+		for(int i=0;i<length;i++){
+			if(queue[i].distance==1000000)
+				System.out.println(" destination "+i+" cant be reached from sourse");
+			else			
+			System.out.println(" destination and weight :"+i+" "+queue[i].distance);
+	}
+	
+	}	
+}

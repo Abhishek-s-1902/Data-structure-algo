@@ -1,0 +1,8 @@
+This is pretty printing algorithm.
+problem doesn't include special
+character at the end of any words
+and execute on slack cost and 
+total cost matrix. it uses dynamic 
+programming concept and has recursive 
+expression which utilises the previously
+computed result into the present execution.

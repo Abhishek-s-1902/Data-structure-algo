@@ -1,0 +1,74 @@
+
+public class Floyd_Warshall {
+
+	
+	
+	static int weight[][] = {{10000,1,2},
+		 {3,10000,2},
+		 {10000,3,10000}};
+	
+	
+	
+	static public int minimum(int i,int j){
+		
+		
+		if(i<j){
+			//System.out.println("in min i: "+i);
+			return i;}
+		else {
+			//System.out.println("in min j: "+j);
+			return j;}
+	}
+	
+	
+	
+	
+	static public int[][] calculate_path(int matrix[][]){
+		
+		int length = matrix.length;
+		//System.out.println("lenght"+length);
+		int R1[][] = new int[length][length];
+		int R2[][] = new int[length][length];
+		R1 = matrix;
+		//System.out.println("check for infinite: "+matrix[0][0]);
+		for(int k=0;k<length;k++){
+			for(int i=0;i<length;i++){
+				for(int j=0;j<length;j++){
+					
+					/*if(k==0){
+						R1[i][j] = matrix[i][j];
+						System.out.println("value "+k+" "+i+" "+j+"  R1:"+R1[i][j]);
+						continue;
+						}*/
+									
+					//System.out.println("value "+i+" "+j+"  R1:"+R1[i][j]);
+					R2[i][j] = minimum(R1[i][j],R1[i][k]+R1[k][j]); 
+					//System.out.println("value:k,i j"+k+" "+i+" "+j+" "+R2[i][j]);
+					   
+				}
+			}
+			
+			R1 = R2;
+		}
+		
+		return R2;
+	}
+	
+	
+	public static void main(String[] args) {
+		
+		int rfinal[][] = new int[3][3];
+		
+		//System.out.println( weight[0][0]);
+		rfinal = calculate_path(weight);
+		System.out.println("for  :"+rfinal[2][2]);
+		
+		for(int i=0;i<3;i++){
+			for(int j=0;j<3;j++){	
+			System.out.println("for :"+i+" "+j+" :"+rfinal[i][j]);
+			}
+		}
+		
+		
+	}
+}

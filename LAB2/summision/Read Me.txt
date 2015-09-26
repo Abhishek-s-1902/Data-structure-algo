@@ -1,0 +1,10 @@
+Guideline for the Program Execution:
+
+--For data set generator I used the reference provided.
+--User need to provide the number of vertices and edges at command line in same order.
+--I maintained a two dimensional array (matrix[][]) to sore the data matrix get 
+  generated and while generating the data we need to keep the sequence of each 
+  data set generated and its calculation first before the second dataset get generated.
+--Below are the table for providing the CPU time taken by each algorithm for each dataset
+--Each time is in milliseconds.
+

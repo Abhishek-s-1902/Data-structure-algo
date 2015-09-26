@@ -1,0 +1,15 @@
+Guideline for the Program Execution:
+
+program name: pretty_print
+
+--For data: two text file has been provided word and word1.
+for other data set, user need to store the paragraph of his choice
+as text files
+--User need to store these files where the program has been stored
+--user need to provide 2 input at command line argumen:
+  1: the width limit for paragraph lines as 1st argument (integer value)
+  2: text file name in which he stored the paragraph as 2nd argument.(with .txt extension)
+  the two files can be used as sample i/p: word and word1.
+
+NOTE: the program only ingnores few general special characters at the end of any 
+ words and not from the begining or middle.
